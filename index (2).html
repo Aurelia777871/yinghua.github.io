@@ -1,0 +1,1614 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>花园世界 - 樱花梦幻圣殿花花收集</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff9ccd',
+                        secondary: '#b3d9ff',
+                        accent: '#ffcc80',
+                        light: '#fff9f9',
+                        dark: '#664d4d'
+                    },
+                    fontFamily: {
+                        sans: ['Arial Rounded MT Bold', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            }
+            .btn-pink {
+                @apply bg-primary text-white font-bold py-2 px-6 rounded-full shadow-lg hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105;
+            }
+            .btn-blue {
+                @apply bg-secondary text-white font-bold py-2 px-6 rounded-full shadow-lg hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105;
+            }
+            .card {
+                @apply bg-white bg-opacity-80 backdrop-blur-sm rounded-2xl shadow-xl p-6 transition-all duration-300 hover:shadow-2xl;
+            }
+            .input-field {
+                @apply border-2 border-primary rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+            }
+        }
+        
+        /* 樱花飘落效果 */
+        .sakura-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            overflow: hidden;
+        }
+        
+        .sakura {
+            position: absolute;
+            background-image: url('https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/98aa2fe1132c44659dbbd5ad179d576a.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&rcl=20260408174505580A06FFB66AE54EE5A6&rrcfp=8a172a1a&x-expires=1776246305&x-signature=556zlfZKivbcnFF3uaymGQ7CSc0%3D');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 20px;
+            height: 20px;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-10%) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* 背景样式 */
+        body {
+            background-image: url('https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/9b4c9a52978d456d8b27e654ae6dbd99.JPG~tplv-a9rns2rl98-24:720:720.jpg?lk3s=8e244e95&rcl=2026040817360464B100408120169722CC&rrcfp=8a172a1a&x-expires=1776245764&x-signature=li%2FL%2F58EjHeR25XdkmWhty%2Bs8Tk%3D');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            min-height: 100vh;
+        }
+        
+        /* 标题动画 */
+        .title-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* 隐藏/显示元素 */
+        .hidden-section {
+            display: none;
+        }
+        
+        /* 表格样式 */
+        .data-table {
+            @apply w-full bg-white bg-opacity-90 rounded-xl shadow-lg overflow-hidden;
+        }
+        
+        .data-table th {
+            @apply bg-primary text-white py-3 px-4 text-left;
+        }
+        
+        .data-table td {
+            @apply py-2 px-4 border-b border-gray-200;
+        }
+        
+        .data-table tr:last-child td {
+            @apply border-b-0;
+        }
+        
+        /* 标签样式 */
+        .tag {
+            @apply inline-block rounded-full px-3 py-1 text-xs font-semibold mr-2 mb-2;
+        }
+        
+        .tag-2880 {
+            @apply bg-green-100 text-green-800;
+        }
+        
+        .tag-3880 {
+            @apply bg-blue-100 text-blue-800;
+        }
+        
+        .tag-4880 {
+            @apply bg-purple-100 text-purple-800;
+        }
+        
+        .tag-5880 {
+            @apply bg-pink-100 text-pink-800;
+        }
+        
+        .tag-7880 {
+            @apply bg-red-100 text-red-800;
+        }
+        
+        .tag-11800 {
+            @apply bg-orange-100 text-orange-800;
+        }
+        
+        .tag-gift {
+            @apply bg-yellow-100 text-yellow-800;
+        }
+        
+        .tag-limited {
+            @apply bg-indigo-100 text-indigo-800;
+        }
+    </style>
+</head>
+<body class="font-sans text-dark">
+    <!-- 樱花飘落容器 -->
+    <div class="sakura-container" id="sakuraContainer"></div>
+    
+    <!-- 主容器 -->
+    <div class="container mx-auto px-4 py-8 relative z-20">
+        <!-- 标题区域 -->
+        <header class="text-center mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-primary text-shadow title-animation mb-2">花园世界</h1>
+            <p class="text-xl md:text-2xl text-secondary font-semibold">樱花梦幻圣殿花花收集</p>
+        </header>
+        
+        <!-- 欢迎区域 -->
+        <section id="welcomeSection" class="mb-12">
+            <div class="card max-w-2xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-primary mb-6">
+</h2>
+                <p class="text-lg mb-4">
+</p>
+                <div class="flex justify-center mb-8">
+                    <input type="text" id="userName" placeholder="请输入您的名字" class="input-field w-full md:w-64 text-center px-8" maxlength="10">
+                </div>
+                <p class="text-lg mb-4">请选择您喜欢的头像</p>
+                <div class="grid grid-cols-5 gap-4 mb-8">
+                    <div class="avatar-option cursor-pointer transition-transform hover:scale-110">
+                        <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/6919a28a970546e390c0a0298fae96c5.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=20260408203324E598E714F22675A3D93D&amp;rrcfp=8a172a1a&amp;x-expires=1776256404&amp;x-signature=UfXz8lLBFDzShLRNnp6H9ofHX%2FU%3D" alt="头像1" class="w-16 h-16 rounded-full mx-auto avatar-img">
+                    </div>
+                    <div class="avatar-option cursor-pointer transition-transform hover:scale-110">
+                        <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/07ea49ad6d034fc8a32a021fd71943a2.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=20260408203324E598E714F22675A3D93D&amp;rrcfp=8a172a1a&amp;x-expires=1776256404&amp;x-signature=Z%2Bb31mNrMjHvuNCMp9hRw4MYpxs%3D" alt="头像2" class="w-16 h-16 rounded-full mx-auto avatar-img">
+                    </div>
+                    <div class="avatar-option cursor-pointer transition-transform hover:scale-110">
+                        <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/e00c0c027a2f4b128145882a641a7802.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=20260408203324E598E714F22675A3D93D&amp;rrcfp=8a172a1a&amp;x-expires=1776256404&amp;x-signature=tmJdpGXpU65MxWG6uAP8dkpfP6M%3D" alt="头像3" class="w-16 h-16 rounded-full mx-auto avatar-img">
+                    </div>
+                    <div class="avatar-option cursor-pointer transition-transform hover:scale-110">
+                        <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/db076baf129e43388c4d9c7d4e262127.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=20260408203324E598E714F22675A3D93D&amp;rrcfp=8a172a1a&amp;x-expires=1776256404&amp;x-signature=%2FFgtgebVLhOrTMLNyxQlTUeoNm0%3D" alt="头像4" class="w-16 h-16 rounded-full mx-auto avatar-img">
+                    </div>
+                    <div class="avatar-option cursor-pointer transition-transform hover:scale-110">
+                        <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/f1c56b052e7a4be3bc1f872f7f4f355c.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=20260408203324E598E714F22675A3D93D&amp;rrcfp=8a172a1a&amp;x-expires=1776256404&amp;x-signature=3l%2FzPZyjsu6FEvfHCZc5eutvBJM%3D" alt="头像5" class="w-16 h-16 rounded-full mx-auto avatar-img">
+                    </div>
+                    <div class="avatar-option cursor-pointer transition-transform hover:scale-110">
+                        <img src="https://p3-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/fce32cb03c5d4657b7dc7f34f42322d7.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=20260408203324E598E714F22675A3D93D&amp;rrcfp=8a172a1a&amp;x-expires=1776256404&amp;x-signature=EWwPqhFoyMjNOBxypyqIkEvNEHU%3D" alt="头像6" class="w-16 h-16 rounded-full mx-auto avatar-img">
+                    </div>
+                    <div class="avatar-option cursor-pointer transition-transform hover:scale-110">
+                        <img src="https://p3-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/9c8fd8e21773408ca2b27e21dac8ea7b.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=20260408203324E598E714F22675A3D93D&amp;rrcfp=8a172a1a&amp;x-expires=1776256404&amp;x-signature=QJRK7iF4K6ceMTciXj5pmTkpxw4%3D" alt="头像7" class="w-16 h-16 rounded-full mx-auto avatar-img">
+                    </div>
+                    <div class="avatar-option cursor-pointer transition-transform hover:scale-110">
+                        <img src="https://p3-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/bde911fdf72f4da89cb96a94ee3d8671.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=20260408203324E598E714F22675A3D93D&amp;rrcfp=8a172a1a&amp;x-expires=1776256404&amp;x-signature=nl8cMZiuEbCnltmqMEXK9IMIqZ4%3D" alt="头像8" class="w-16 h-16 rounded-full mx-auto avatar-img">
+                    </div>
+                    <div class="avatar-option cursor-pointer transition-transform hover:scale-110">
+                        <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/95af31a6aa36420b8ccb68df36ebdfc4.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=20260408203324E598E714F22675A3D93D&amp;rrcfp=8a172a1a&amp;x-expires=1776256404&amp;x-signature=GWijkT0ZUyZDeEL6mvk%2Ff2LP44c%3D" alt="头像9" class="w-16 h-16 rounded-full mx-auto avatar-img">
+                    </div>
+                    <div class="avatar-option cursor-pointer transition-transform hover:scale-110">
+                        <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/aed1d74361494cf6bfcd27bec650e32f.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=20260408203324E598E714F22675A3D93D&amp;rrcfp=8a172a1a&amp;x-expires=1776256404&amp;x-signature=hjm0yhWci31C%2Bn0skci6BlPPpeo%3D" alt="头像10" class="w-16 h-16 rounded-full mx-auto avatar-img">
+                    </div>
+                </div>
+                <div class="flex flex-col items-center space-y-4">
+                    <button id="enterBtn" class="btn-pink">进入花园</button>
+                    <button id="adminLoginBtn" class="text-sm text-gray-600 hover:text-blue-600 bg-transparent border-none cursor-pointer">管理员模式</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 主功能区域 -->
+        <section id="mainSection" class="hidden-section">
+            <!-- 用户信息栏 -->
+            <div class="bg-white bg-opacity-80 backdrop-blur-sm rounded-full shadow-lg p-4 mb-8 flex justify-between items-center">
+                <div class="flex items-center">
+                    <img id="userAvatar" src="https://p26-doubao-search-sign.byteimg.com/labis/image/c793c9653628051b184968e9fcc71605~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1791192985&amp;x-signature=WU0eohGsBvNId0l3utJpyPX4B4Q%3D" alt="用户头像" class="w-12 h-12 rounded-full mr-3">
+                    <div>
+                        <h3 class="font-bold text-lg" id="welcomeUser">欢迎，用户</h3>
+                        <p class="text-sm text-gray-600">收集快乐，分享美好</p>
+                    </div>
+                </div>
+                <button id="logoutBtn" class="btn-blue">退出花园</button>
+            </div>
+            
+            <!-- 功能按钮网格 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="card text-center cursor-pointer hover:scale-105 transition-transform" id="flowerSearchBtn">
+                    <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/9c3211f8bc394547a8cbe2e2e121f082.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=20260408234424D34A362F7045FF285A0E&amp;rrcfp=8a172a1a&amp;x-expires=1776267865&amp;x-signature=%2BwcE%2B80SRQnXQ5OVmTGnQo8P1l0%3D" alt="花查人" class="w-16 h-16 object-contain mx-auto mb-4">
+                    <h3 class="text-xl font-bold text-primary mb-2">花查人</h3>
+                    <p class="text-gray-600">通过花名查找拥有该花的人</p>
+                </div>
+                
+                <div class="card text-center cursor-pointer hover:scale-105 transition-transform" id="userSearchBtn">
+                    <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/b54f804b8b054ad8923bf7fc0f435537.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=2026040823290073723434E21DA6BCA754&amp;rrcfp=8a172a1a&amp;x-expires=1776266940&amp;x-signature=w1VAaPHbk%2Bqxf83fYpjmo6sk31Q%3D" alt="人查花" class="w-16 h-16 object-contain mx-auto mb-4">
+                    <h3 class="text-xl font-bold text-primary mb-2">人查花</h3>
+                    <p class="text-gray-600">查看特定用户拥有的所有花</p>
+                </div>
+                
+                <div class="card text-center cursor-pointer hover:scale-105 transition-transform" id="allUsersBtn">
+                    <img src="https://p3-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/db4d4260f0ca482087970efec9c51f2f.PNG~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=2026040823290073723434E21DA6BCA754&amp;rrcfp=8a172a1a&amp;x-expires=1776266940&amp;x-signature=W8FrGQp1VY6p896mxhkRRLMqkIs%3D" alt="全部人员花单汇总" class="w-16 h-16 object-contain mx-auto mb-4">
+                    <h3 class="text-xl font-bold text-primary mb-2">全部人员花单汇总</h3>
+                    <p class="text-gray-600">一键查询所有人的花花收集情况</p>
+                </div>
+                
+                <div class="card text-center cursor-pointer hover:scale-105 transition-transform" id="exchangeSuggestBtn">
+                    <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/13bc536f5d7c47fa8bccc752b5126367.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=2026040823290073723434E21DA6BCA754&amp;rrcfp=8a172a1a&amp;x-expires=1776266940&amp;x-signature=W6mxYv0OcXutFipc0b6P3rzP5Is%3D" alt="花坊兑换建议" class="w-16 h-16 object-contain mx-auto mb-4">
+                    <h3 class="text-xl font-bold text-primary mb-2">花坊兑换建议</h3>
+                    <p class="text-gray-600">查看花坊兑换推荐和建议</p>
+                </div>
+            </div>
+            
+            <!-- 个人花花管理区域 -->
+            <div class="card mb-12">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-primary">我的花花收集</h2>
+                    <button id="addFlowerBtn" class="btn-pink">
+                        <i class="fa fa-plus mr-2"></i>添加花花
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>花名</th>
+                                <th>来源</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userFlowersTable">
+                            <!-- 用户花花数据将在这里动态生成 -->
+                            <tr>
+                                <td colspan="5" class="text-center py-4">您还没有添加任何花花，点击"添加花花"开始收集吧！</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 花查人功能区域 -->
+        <section id="flowerSearchSection" class="hidden-section">
+            <div class="card mb-8">
+                <h2 class="text-2xl font-bold text-primary mb-6">花查人</h2>
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <input type="text" id="flowerSearchInput" placeholder="请输入花名" class="input-field w-full md:w-auto">
+                    <button id="flowerSearchActionBtn" class="btn-pink">查找</button>
+                    <button id="backFromFlowerSearchBtn" class="btn-blue">返回</button>
+                </div>
+                <div id="flowerSearchResults" class="hidden">
+                    <h3 class="text-xl font-bold mb-4">拥有"<span id="searchedFlowerName"></span>"的用户</h3>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>用户</th>
+                                    <th>数量</th>
+                                    <th>获得日期</th>
+                                </tr>
+                            </thead>
+                            <tbody id="flowerSearchTable">
+                                <!-- 搜索结果将在这里动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 人查花功能区域 -->
+        <section id="userSearchSection" class="hidden-section">
+            <div class="card mb-8">
+                <h2 class="text-2xl font-bold text-primary mb-6">人查花</h2>
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <input type="text" id="userSearchInput" placeholder="请输入用户名" class="input-field w-full md:w-auto">
+                    <button id="userSearchActionBtn" class="btn-pink">查找</button>
+                    <button id="backFromUserSearchBtn" class="btn-blue">返回</button>
+                </div>
+                <div id="userSearchResults" class="hidden">
+                    <h3 class="text-xl font-bold mb-4"><span id="searchedUserName"></span>的花花收集</h3>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>花名</th>
+                                    <th>来源</th>
+                                    <th>数量</th>
+                                    <th>获得日期</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userSearchTable">
+                                <!-- 搜索结果将在这里动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 全部人员花单汇总功能区域 -->
+        <section id="allUsersSection" class="hidden-section">
+            <div class="card mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-primary">全部人员花单汇总</h2>
+                    <button id="backFromAllUsersBtn" class="btn-blue">返回</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>用户</th>
+                                <th>花名</th>
+                                <th>来源</th>
+                                <th>数量</th>
+                                <th>获得日期</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allUsersTable">
+                            <!-- 全部用户数据将在这里动态生成 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 花坊兑换建议功能区域 -->
+        <section id="exchangeSuggestSection" class="hidden-section">
+            <div class="card mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-primary">花坊兑换建议</h2>
+                    <button id="backFromExchangeSuggestBtn" class="btn-blue">返回</button>
+                </div>
+                
+                <!-- 未收集花花展示区域 -->
+                <div class="space-y-6">
+                    <!-- 您尚未收集的花花 -->
+                    <div class="bg-white bg-opacity-90 rounded-xl p-6 shadow-lg">
+                        <h3 class="text-xl font-bold text-primary mb-4">您尚未收集的花花</h3>
+                        <div id="userMissingFlowersContainer" class="space-y-6">
+                            <!-- 未收集的花花将在这里按类别动态生成 -->
+                            <p class="text-center text-gray-500">正在加载您未收集的花花信息...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 大家都未收集的花花 -->
+                    <div class="bg-white bg-opacity-90 rounded-xl p-6 shadow-lg">
+                        <h3 class="text-xl font-bold text-primary mb-4">大家都未收集的花花</h3>
+                        <div id="everyoneMissingFlowersContainer" class="space-y-6">
+                            <!-- 未收集的花花将在这里按类别动态生成 -->
+                            <p class="text-center text-gray-500">正在加载大家未收集的花花信息...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 优先建议 -->
+                    <div class="bg-white bg-opacity-90 rounded-xl p-6 shadow-lg border-2 border-red-400">
+                        <h3 class="text-xl font-bold text-red-500 mb-4">
+                            <i class="fa fa-star mr-2"></i>优先建议兑换
+                        </h3>
+                        <div id="priorityFlowersContainer" class="space-y-6">
+                            <!-- 优先建议的花花将在这里动态生成 -->
+                            <p class="text-center text-gray-500">正在加载优先建议...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- 花坊分类 -->
+                    <div class="bg-white bg-opacity-90 rounded-xl p-6 shadow-lg">
+                        <h3 class="text-xl font-bold text-primary mb-4">花坊分类</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <span class="tag tag-2880 mr-2">2880及以下</span>
+                                <span>经济实惠的基础花花</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="tag tag-3880 mr-2">3880</span>
+                                <span>性价比高的精美花花</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="tag tag-4880 mr-2">4880</span>
+                                <span>稀有度较高的优质花花</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="tag tag-5880 mr-2">5880</span>
+                                <span>珍贵的高级花花</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="tag tag-7880 mr-2">7880</span>
+                                <span>稀有的顶级花花</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="tag tag-11800 mr-2">11800</span>
+                                <span>极其珍贵的奢华花花</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="tag tag-gift mr-2">礼包花圃</span>
+                                <span>限时礼包专属花花</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="tag tag-limited mr-2">活动礼包</span>
+                                <span>活动礼包专属花花</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 兑换建议 -->
+                    <div class="bg-white bg-opacity-90 rounded-xl p-6 shadow-lg">
+                        <h3 class="text-xl font-bold text-primary mb-4">兑换建议</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-bold text-lg">新手推荐</h4>
+                                <p>优先兑换2880及3880档位的基础花花，积累收集经验</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">收藏爱好者</h4>
+                                <p>关注限时活动和礼包花圃，这些花花通常具有独特性和收藏价值</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">性价比之选</h4>
+                                <p>4880和5880档位的花花通常设计精美，价格适中，是不错的选择</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">当前活动</h4>
+                                <div class="ml-4 mt-2">
+                                    <p class="text-pink-600 font-bold text-lg">  1. "心联盟"活动：</p>
+                                    <p class="text-gray-700">收集紫荷包牡丹、珠宝之心、粉荷包牡丹、寻蜜之心、梦幻之心可获得限定奖励！</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-indigo-600">  2. 星河池子活动：</h4>
+                                <div class="ml-4 mt-2">
+                                    <p class="text-gray-700">金钟连翘、薄粉蕙兰、正红大丽花、香槟玫瑰、碧落月见草、粉樱月见草、绯色腊梅、宝珠玉兰、星河映蕊</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 管理员登录模态框 -->
+        <div id="adminLoginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
+                <h2 class="text-2xl font-bold text-primary mb-6 text-center">管理员登录</h2>
+                <form id="adminLoginForm">
+                    <div class="mb-4">
+                        <label for="adminName" class="block text-gray-700 font-bold mb-2">用户名</label>
+                        <input type="text" id="adminName" class="input-field w-full" placeholder="请输入您的用户名（任意）" required="">
+                    </div>
+                    <div class="mb-4">
+                        <label for="adminPassword" class="block text-gray-700 font-bold mb-2">密码</label>
+                        <input type="password" id="adminPassword" class="input-field w-full" placeholder="请输入管理员密码" required="">
+                    </div>
+                    <div class="flex justify-center space-x-4">
+                        <button type="button" id="cancelAdminLoginBtn" class="btn-blue">取消</button>
+                        <button type="submit" class="btn-pink">登录</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 管理员模式页面 -->
+        <section id="adminModeSection" class="hidden-section">
+            <div class="container mx-auto px-4 py-8">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold text-primary">管理员模式</h2>
+                    <button id="exitAdminModeBtn" class="btn-blue">返回登录页面</button>
+                </div>
+                
+                <div class="bg-white bg-opacity-90 rounded-xl p-8 shadow-lg mb-8">
+                    <h3 class="text-2xl font-bold mb-6">玩家信息管理</h3>
+                    
+                    <div class="mb-8">
+                        <h4 class="text-xl font-bold mb-4">删除用户数据</h4>
+                        <div class="flex flex-col md:flex-row gap-4 mb-4">
+                            <select id="userToDelete" class="input-field w-full md:w-64">
+                                <option value="">请选择要删除的用户</option>
+                            </select>
+                            <button id="deleteUserBtn" class="btn-red">删除该用户所有花花收集信息</button>
+                        </div>
+                        <p class="text-sm text-gray-500">注意：此操作将永久删除所选用户的所有花花收集信息，无法恢复！</p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-xl font-bold mb-4">所有玩家信息</h4>
+                        <div class="overflow-x-auto">
+                            <table class="data-table w-full">
+                                <thead>
+                                    <tr>
+                                        <th>用户名</th>
+                                        <th>花花数量</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="allUsersInfoTable">
+                                    <!-- 玩家信息将在这里动态生成 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 添加花花模态框 -->
+        <div id="addFlowerModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
+                <h2 class="text-2xl font-bold text-primary mb-6 text-center">添加新花花</h2>
+                <form id="addFlowerForm">
+                    <div class="mb-4">
+                        <label for="flowerName" class="block text-gray-700 font-bold mb-2">花名</label>
+                        <input type="text" id="flowerName" class="input-field w-full" placeholder="请输入花名" required="">
+                    </div>
+                    <div class="mb-4">
+                        <label for="flowerSource" class="block text-gray-700 font-bold mb-2">来源</label>
+                        <select id="flowerSource" class="input-field w-full" required="">
+                            <option value="">请选择来源</option>
+                            <option value="2880">2880及以下</option>
+                            <option value="3880">3880</option>
+                            <option value="4880">4880</option>
+                            <option value="5880">5880</option>
+                            <option value="7880">7880</option>
+                            <option value="11800">11800</option>
+                            <option value="gift">礼包花圃</option>
+                            <option value="limited">活动礼包</option>
+                        </select>
+                    </div>
+                    <div id="eventNameContainer" class="mb-4 hidden">
+                        <label for="eventName" class="block text-gray-700 font-bold mb-2">活动名称</label>
+                        <input type="text" id="eventName" class="input-field w-full" placeholder="请输入活动名称">
+                    </div>
+                    <div id="flowerSuggestionContainer" class="mb-6 hidden">
+                        <label class="block text-gray-700 font-bold mb-2">选择花名</label>
+                        <div class="bg-gray-100 rounded-lg p-2 max-h-60 overflow-y-auto">
+                            <table id="flowerSuggestionTable" class="w-full text-sm">
+                                <tbody>
+                                    <!-- 花名建议将在这里动态生成 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="flex justify-center space-x-4">
+                        <button type="button" id="cancelAddFlowerBtn" class="btn-blue">取消</button>
+                        <button type="submit" id="confirmAddBtn" class="btn-pink">确认添加</button>
+                        <button type="button" id="addToInputBtn" class="btn-pink hidden">添加到输入框</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 全局变量
+        let currentUser = '';
+        let currentAvatar = '';
+        let flowerData = [];
+        let usersData = [];
+        let avatarData = {};
+        let selectedFlowers = [];
+        
+        // 初始化樱花飘落效果
+        function initSakura() {
+            const container = document.getElementById('sakuraContainer');
+            const sakuraCount = window.innerWidth < 768 ? 20 : 40;
+            
+            for (let i = 0; i < sakuraCount; i++) {
+                createSakura(container);
+            }
+        }
+        
+        function createSakura(container) {
+            const sakura = document.createElement('div');
+            sakura.classList.add('sakura');
+            
+            // 随机位置、大小、旋转和动画持续时间
+            const size = Math.random() * 20 + 10;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 10 + 10;
+            const delay = Math.random() * 5;
+            const opacity = Math.random() * 0.5 + 0.5;
+            
+            sakura.style.width = `${size}px`;
+            sakura.style.height = `${size}px`;
+            sakura.style.left = `${left}%`;
+            sakura.style.animationDuration = `${duration}s`;
+            sakura.style.animationDelay = `${delay}s`;
+            sakura.style.opacity = opacity;
+            
+            container.appendChild(sakura);
+            
+            // 动画结束后重新创建
+            sakura.addEventListener('animationend', () => {
+                sakura.remove();
+                createSakura(container);
+            });
+        }
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM加载完成，开始初始化...');
+            initSakura();
+            
+            // 设置当前日期为默认日期
+            const today = new Date().toISOString().split('T')[0];
+            const flowerDateInput = document.getElementById('flowerDate');
+            if (flowerDateInput) {
+                flowerDateInput.value = today;
+            }
+            
+            // 从localStorage加载数据
+            loadData();
+            
+            console.log('准备初始化头像选择...');
+            // 初始化头像选择
+            initAvatarSelection();
+            
+            // 事件监听
+            
+            document.getElementById('enterBtn').addEventListener('click', enterGarden);
+            document.getElementById('userName').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') enterGarden();
+            });
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            
+            // 功能按钮事件
+            document.getElementById('flowerSearchBtn').addEventListener('click', showFlowerSearchSection);
+            document.getElementById('userSearchBtn').addEventListener('click', showUserSearchSection);
+            document.getElementById('allUsersBtn').addEventListener('click', showAllUsersSection);
+            document.getElementById('exchangeSuggestBtn').addEventListener('click', showExchangeSuggestSection);
+            
+            // 返回按钮事件
+            document.getElementById('backFromFlowerSearchBtn').addEventListener('click', showMainSection);
+            document.getElementById('backFromUserSearchBtn').addEventListener('click', showMainSection);
+            document.getElementById('backFromAllUsersBtn').addEventListener('click', showMainSection);
+            document.getElementById('backFromExchangeSuggestBtn').addEventListener('click', showMainSection);
+            
+            // 搜索按钮事件
+            document.getElementById('flowerSearchActionBtn').addEventListener('click', searchFlower);
+            document.getElementById('userSearchActionBtn').addEventListener('click', searchUser);
+            
+            // 添加花花相关事件
+            document.getElementById('addFlowerBtn').addEventListener('click', showAddFlowerModal);
+            document.getElementById('cancelAddFlowerBtn').addEventListener('click', hideAddFlowerModal);
+            document.getElementById('addFlowerForm').addEventListener('submit', addFlower);
+            document.getElementById('addToInputBtn').addEventListener('click', addSelectedFlowersToInput);
+            
+            // 管理员登录按钮
+            document.getElementById('adminLoginBtn').addEventListener('click', showAdminLoginModal);
+            document.getElementById('cancelAdminLoginBtn').addEventListener('click', hideAdminLoginModal);
+            document.getElementById('adminLoginForm').addEventListener('submit', handleAdminLogin);
+            document.getElementById('exitAdminModeBtn').addEventListener('click', exitAdminMode);
+            document.getElementById('deleteUserBtn').addEventListener('click', deleteUser);
+            
+            // 来源选择事件
+            document.getElementById('flowerSource').addEventListener('change', function() {
+                const eventContainer = document.getElementById('eventNameContainer');
+                const suggestionContainer = document.getElementById('flowerSuggestionContainer');
+                const confirmAddBtn = document.getElementById('confirmAddBtn');
+                const addToInputBtn = document.getElementById('addToInputBtn');
+                
+                // 隐藏活动名称输入框
+                eventContainer.classList.add('hidden');
+                document.getElementById('eventName').removeAttribute('required');
+                
+                // 隐藏花名建议容器
+                suggestionContainer.classList.add('hidden');
+                
+                // 显示确认添加按钮，隐藏添加到输入框按钮
+                confirmAddBtn.classList.remove('hidden');
+                addToInputBtn.classList.add('hidden');
+                
+                // 根据选择的来源显示对应的花名建议
+                if (this.value) {
+                    showFlowerSuggestions(this.value);
+                    // 显示花名建议容器时，隐藏确认添加按钮，显示添加到输入框按钮
+                    confirmAddBtn.classList.add('hidden');
+                    addToInputBtn.classList.remove('hidden');
+                }
+            });
+        });
+        
+        // 初始化头像选择
+        function initAvatarSelection() {
+            console.log('初始化头像选择...');
+            const avatarOptions = document.querySelectorAll('.avatar-option');
+            const avatarImages = document.querySelectorAll('.avatar-img');
+            
+            console.log('找到', avatarOptions.length, '个头像选项');
+            
+            // 添加点击事件
+            avatarOptions.forEach((option, index) => {
+                option.addEventListener('click', () => {
+                    console.log('点击了头像', index + 1);
+                    // 移除所有选中状态
+                    avatarOptions.forEach(opt => opt.classList.remove('ring-4', 'ring-primary', 'scale-110'));
+                    
+                    // 添加选中状态
+                    option.classList.add('ring-4', 'ring-primary', 'scale-110');
+                    
+                    // 保存选中的头像
+                    currentAvatar = avatarImages[index].src;
+                    console.log('选中的头像:', currentAvatar);
+                });
+            });
+            
+            // 默认选中第一个头像
+            if (avatarOptions.length > 0) {
+                avatarOptions[0].classList.add('ring-4', 'ring-primary', 'scale-110');
+                currentAvatar = avatarImages[0].src;
+                console.log('默认选中第一个头像:', currentAvatar);
+            }
+        }
+        
+        // 进入花园
+        function enterGarden() {
+            console.log('进入花园函数被调用');
+            const userName = document.getElementById('userName').value.trim();
+            console.log('用户输入的名字:', userName);
+            
+            if (!userName) {
+                alert('请输入您的名字');
+                return;
+            }
+            
+            console.log('当前选中的头像:', currentAvatar);
+            if (!currentAvatar) {
+                alert('请选择一个头像');
+                return;
+            }
+            
+            currentUser = userName;
+            
+            // 保存用户头像
+            avatarData[userName] = currentAvatar;
+            
+            // 如果用户不存在，添加到用户列表
+            if (!usersData.includes(userName)) {
+                usersData.push(userName);
+            }
+            
+            saveData();
+            
+            // 更新欢迎信息和头像
+            document.getElementById('welcomeUser').textContent = `欢迎，${userName}`;
+            document.getElementById('userAvatar').src = currentAvatar;
+            
+            // 显示主功能区域
+            showMainSection();
+            
+            // 更新用户花花列表
+            updateUserFlowersTable();
+        }
+        
+        // 退出花园
+        function logout() {
+            currentUser = '';
+            document.getElementById('userName').value = '';
+            document.getElementById('welcomeUser').textContent = '欢迎，用户';
+            
+            // 隐藏所有功能区域，显示欢迎区域
+            document.getElementById('welcomeSection').classList.remove('hidden-section');
+            document.getElementById('mainSection').classList.add('hidden-section');
+            document.getElementById('flowerSearchSection').classList.add('hidden-section');
+            document.getElementById('userSearchSection').classList.add('hidden-section');
+            document.getElementById('allUsersSection').classList.add('hidden-section');
+            document.getElementById('exchangeSuggestSection').classList.add('hidden-section');
+        }
+        
+        // 显示主功能区域
+        function showMainSection() {
+            console.log('显示主功能区域...');
+            
+            const welcomeSection = document.getElementById('welcomeSection');
+            const mainSection = document.getElementById('mainSection');
+            const flowerSearchSection = document.getElementById('flowerSearchSection');
+            const userSearchSection = document.getElementById('userSearchSection');
+            const allUsersSection = document.getElementById('allUsersSection');
+            const exchangeSuggestSection = document.getElementById('exchangeSuggestSection');
+            
+            console.log('welcomeSection:', welcomeSection);
+            console.log('mainSection:', mainSection);
+            
+            // 隐藏欢迎区域
+            if (welcomeSection) {
+                welcomeSection.classList.add('hidden-section');
+                console.log('隐藏欢迎区域');
+            }
+            
+            // 显示主功能区域
+            if (mainSection) {
+                mainSection.classList.remove('hidden-section');
+                console.log('显示主功能区域');
+            }
+            
+            // 隐藏其他功能区域
+            if (flowerSearchSection) flowerSearchSection.classList.add('hidden-section');
+            if (userSearchSection) userSearchSection.classList.add('hidden-section');
+            if (allUsersSection) allUsersSection.classList.add('hidden-section');
+            if (exchangeSuggestSection) exchangeSuggestSection.classList.add('hidden-section');
+            
+            console.log('主功能区域显示完成');
+        }
+        
+        // 显示花查人功能区域
+        function showFlowerSearchSection() {
+            document.getElementById('mainSection').classList.add('hidden-section');
+            document.getElementById('flowerSearchSection').classList.remove('hidden-section');
+            document.getElementById('flowerSearchResults').classList.add('hidden');
+        }
+        
+        // 显示人查花功能区域
+        function showUserSearchSection() {
+            document.getElementById('mainSection').classList.add('hidden-section');
+            document.getElementById('userSearchSection').classList.remove('hidden-section');
+            document.getElementById('userSearchResults').classList.add('hidden');
+        }
+        
+        // 显示全部人员花单汇总功能区域
+        function showAllUsersSection() {
+            document.getElementById('mainSection').classList.add('hidden-section');
+            document.getElementById('allUsersSection').classList.remove('hidden-section');
+            updateAllUsersTable();
+        }
+        
+        // 显示花坊兑换建议功能区域
+        function showExchangeSuggestSection() {
+            document.getElementById('mainSection').classList.add('hidden-section');
+            document.getElementById('exchangeSuggestSection').classList.remove('hidden-section');
+        }
+        
+        // 显示添加花花模态框
+        function showAddFlowerModal() {
+            document.getElementById('addFlowerModal').classList.remove('hidden');
+            document.getElementById('addFlowerForm').reset();
+            document.getElementById('flowerDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('eventNameContainer').classList.add('hidden');
+        }
+        
+        // 显示管理员登录模态框
+        function showAdminLoginModal() {
+            document.getElementById('adminLoginModal').classList.remove('hidden');
+        }
+
+        // 隐藏管理员登录模态框
+        function hideAdminLoginModal() {
+            document.getElementById('adminLoginModal').classList.add('hidden');
+            document.getElementById('adminLoginForm').reset();
+        }
+
+        // 处理管理员登录
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            console.log('管理员登录尝试，跳过密码验证');
+            isAdminMode = true;
+            hideAdminLoginModal();
+            showAdminMode();
+        }
+
+        // 显示管理员模式
+        function showAdminMode() {
+            console.log('显示管理员模式页面');
+            // 更新用户选择下拉框和玩家信息表格
+            updateUserSelect();
+            updateAllUsersInfoTable();
+            
+            // 隐藏所有其他区域，显示管理员模式页面
+            const welcomeSection = document.getElementById('welcomeSection');
+            const mainSection = document.getElementById('mainSection');
+            const flowerSearchSection = document.getElementById('flowerSearchSection');
+            const userSearchSection = document.getElementById('userSearchSection');
+            const allUsersSection = document.getElementById('allUsersSection');
+            const exchangeSuggestSection = document.getElementById('exchangeSuggestSection');
+            const adminModeSection = document.getElementById('adminModeSection');
+            
+            console.log('各区域元素:', {
+                welcomeSection,
+                mainSection,
+                flowerSearchSection,
+                userSearchSection,
+                allUsersSection,
+                exchangeSuggestSection,
+                adminModeSection
+            });
+            
+            if (welcomeSection) welcomeSection.classList.add('hidden-section');
+            if (mainSection) mainSection.classList.add('hidden-section');
+            if (flowerSearchSection) flowerSearchSection.classList.add('hidden-section');
+            if (userSearchSection) userSearchSection.classList.add('hidden-section');
+            if (allUsersSection) allUsersSection.classList.add('hidden-section');
+            if (exchangeSuggestSection) exchangeSuggestSection.classList.add('hidden-section');
+            if (adminModeSection) {
+                adminModeSection.classList.remove('hidden-section');
+                console.log('管理员模式页面已显示');
+            } else {
+                console.error('找不到管理员模式页面元素');
+            }
+        }
+
+        // 退出管理员模式
+        function exitAdminMode() {
+            isAdminMode = false;
+            
+            // 隐藏管理员模式页面，显示登录页面
+            document.getElementById('adminModeSection').classList.add('hidden-section');
+            document.getElementById('welcomeSection').classList.remove('hidden-section');
+        }
+
+        // 更新所有玩家信息表格
+        function updateAllUsersInfoTable() {
+            const tableBody = document.getElementById('allUsersInfoTable');
+            
+            if (usersData.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="3" class="text-center py-4">暂无玩家数据</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            
+            usersData.forEach(user => {
+                // 计算该用户拥有的花花数量
+                const userFlowers = flowerData.filter(flower => flower.user === user);
+                const flowerCount = userFlowers.length;
+                
+                const row = document.createElement('tr');
+                
+                // 用户名
+                const userCell = document.createElement('td');
+                userCell.textContent = user;
+                row.appendChild(userCell);
+                
+                // 花花数量
+                const countCell = document.createElement('td');
+                countCell.textContent = flowerCount;
+                row.appendChild(countCell);
+                
+                // 操作
+                const actionCell = document.createElement('td');
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = '删除';
+                deleteBtn.classList.add('btn-red', 'btn-sm');
+                deleteBtn.onclick = () => {
+                    if (confirm(`确定要删除用户 "${user}" 的所有花花收集信息吗？此操作无法恢复！`)) {
+                        deleteUserConfirmed(user);
+                    }
+                };
+                actionCell.appendChild(deleteBtn);
+                row.appendChild(actionCell);
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // 确认删除用户数据
+        function deleteUserConfirmed(userToDelete) {
+            // 从flowerData中删除该用户的所有数据
+            flowerData = flowerData.filter(flower => flower.user !== userToDelete);
+            
+            // 从usersData中移除该用户
+            usersData = usersData.filter(user => user !== userToDelete);
+            
+            // 删除该用户的头像数据
+            delete avatarData[userToDelete];
+            
+            // 保存数据
+            saveData();
+            
+            // 更新用户选择下拉框和玩家信息表格
+            updateUserSelect();
+            updateAllUsersInfoTable();
+            
+            alert(`已成功删除用户 "${userToDelete}" 的所有数据！`);
+        }
+
+        // 更新用户选择下拉框
+        function updateUserSelect() {
+            const select = document.getElementById('userToDelete');
+            select.innerHTML = '<option value="">请选择要删除的用户</option>';
+            
+            usersData.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user;
+                option.textContent = user;
+                select.appendChild(option);
+            });
+        }
+
+        // 删除用户所有数据
+        function deleteUser() {
+            const userToDelete = document.getElementById('userToDelete').value;
+            
+            if (!userToDelete) {
+                alert('请选择要删除的用户');
+                return;
+            }
+
+            if (confirm(`确定要删除用户 "${userToDelete}" 的所有花花收集信息吗？此操作无法恢复！`)) {
+                deleteUserConfirmed(userToDelete);
+            }
+        }
+
+        // 隐藏添加花花模态框
+        function hideAddFlowerModal() {
+            document.getElementById('addFlowerModal').classList.add('hidden');
+        }
+        
+        // 添加花花
+        function addFlower(e) {
+            e.preventDefault();
+            
+            const flowerSource = document.getElementById('flowerSource').value;
+            const eventName = document.getElementById('eventName').value.trim();
+            
+            // 处理手动输入的花名（支持逗号分隔的多个花名）
+            const flowerNameInput = document.getElementById('flowerName').value.trim();
+            if (flowerNameInput) {
+                if (!flowerSource) {
+                    alert('请选择来源');
+                    return;
+                }
+                
+                // 分割花名（支持逗号、空格等分隔符）
+                const flowerNames = flowerNameInput.split(/[,，\s]+/).filter(name => name.trim() !== '');
+                
+                if (flowerNames.length === 0) {
+                    alert('请输入有效的花名');
+                    return;
+                }
+                
+                // 添加每一朵花
+                flowerNames.forEach(name => {
+                    addSingleFlower(name.trim(), flowerSource, eventName);
+                });
+                
+                // 清空输入框
+                document.getElementById('flowerName').value = '';
+                
+                // 保存数据
+                saveData();
+                
+                // 更新表格
+                updateUserFlowersTable();
+                
+                // 隐藏模态框
+                hideAddFlowerModal();
+                
+                alert('花花添加成功！');
+            } else {
+                alert('请输入花名');
+            }
+        }
+        
+        // 将选中的花添加到输入框
+        function addSelectedFlowersToInput() {
+            // 获取所有选中的复选框
+            const checkedBoxes = document.querySelectorAll('.flower-checkbox:checked');
+            
+            if (checkedBoxes.length === 0) {
+                alert('请先选择要添加的花');
+                return;
+            }
+            
+            // 获取选中的花名
+            const selectedFlowerNames = Array.from(checkedBoxes).map(checkbox => checkbox.value);
+            
+            // 将花名添加到输入框，用逗号分隔
+            const flowerNameInput = document.getElementById('flowerName');
+            const currentValue = flowerNameInput.value.trim();
+            
+            if (currentValue) {
+                // 如果输入框已有内容，添加逗号和空格
+                flowerNameInput.value = currentValue + ', ' + selectedFlowerNames.join(', ');
+            } else {
+                // 如果输入框为空，直接添加
+                flowerNameInput.value = selectedFlowerNames.join(', ');
+            }
+            
+            // 清空选中状态
+            checkedBoxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // 隐藏花名建议容器
+            document.getElementById('flowerSuggestionContainer').classList.add('hidden');
+            
+            // 显示确认添加按钮，隐藏添加到输入框按钮
+            document.getElementById('confirmAddBtn').classList.remove('hidden');
+            document.getElementById('addToInputBtn').classList.add('hidden');
+        }
+
+        // 添加单朵花
+        function addSingleFlower(flowerName, flowerSource, eventName) {
+            const today = new Date().toISOString().split('T')[0];
+            
+            // 创建新的花数据
+            const newFlower = {
+                user: currentUser,
+                name: flowerName,
+                source: flowerSource,
+                count: 1, // 默认数量为1
+                date: today, // 默认日期为今天
+                event: eventName
+            };
+            
+            // 添加到数据中
+            flowerData.push(newFlower);
+        }
+        
+        // 更新用户花花表格
+        function updateUserFlowersTable() {
+            const tableBody = document.getElementById('userFlowersTable');
+            const userFlowers = flowerData.filter(flower => flower.user === currentUser);
+            
+            if (userFlowers.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="3" class="text-center py-4">您还没有添加任何花花，点击"添加花花"开始收集吧！</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            
+            userFlowers.forEach((flower, index) => {
+                const row = document.createElement('tr');
+                
+                // 花名
+                const nameCell = document.createElement('td');
+                nameCell.textContent = flower.name;
+                row.appendChild(nameCell);
+                
+                // 来源
+                const sourceCell = document.createElement('td');
+                const sourceTag = document.createElement('span');
+                
+                switch (flower.source) {
+                    case '2880':
+                        sourceTag.classList.add('tag', 'tag-2880');
+                        sourceTag.textContent = '2880及以下';
+                        break;
+                    case '3880':
+                        sourceTag.classList.add('tag', 'tag-3880');
+                        sourceTag.textContent = '3880';
+                        break;
+                    case '4880':
+                        sourceTag.classList.add('tag', 'tag-4880');
+                        sourceTag.textContent = '4880';
+                        break;
+                    case '5880':
+                        sourceTag.classList.add('tag', 'tag-5880');
+                        sourceTag.textContent = '5880';
+                        break;
+                    case '7880':
+                        sourceTag.classList.add('tag', 'tag-7880');
+                        sourceTag.textContent = '7880';
+                        break;
+                    case '11800':
+                        sourceTag.classList.add('tag', 'tag-11800');
+                        sourceTag.textContent = '11800';
+                        break;
+                    case 'gift':
+                        sourceTag.classList.add('tag', 'tag-gift');
+                        sourceTag.textContent = '礼包花圃';
+                        break;
+                    case 'limited':
+                        sourceTag.classList.add('tag', 'tag-limited');
+                        sourceTag.textContent = `限时活动: ${flower.event || '未知活动'}`;
+                        break;
+                }
+                
+                sourceCell.appendChild(sourceTag);
+                row.appendChild(sourceCell);
+                
+
+                
+                // 操作
+                const actionCell = document.createElement('td');
+                const deleteBtn = document.createElement('button');
+                deleteBtn.classList.add('bg-red-500', 'text-white', 'px-3', 'py-1', 'rounded-full', 'text-sm', 'hover:bg-red-600');
+                deleteBtn.textContent = '删除';
+                deleteBtn.addEventListener('click', () => deleteFlower(index));
+                actionCell.appendChild(deleteBtn);
+                row.appendChild(actionCell);
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // 删除花花
+        function deleteFlower(index) {
+            if (confirm('确定要删除这朵花花吗？')) {
+                flowerData = flowerData.filter(flower => !(flower.user === currentUser && flowerData.indexOf(flower) === index));
+                saveData();
+                updateUserFlowersTable();
+            }
+        }
+        
+        // 搜索花
+        function searchFlower() {
+            const flowerName = document.getElementById('flowerSearchInput').value.trim();
+            if (!flowerName) {
+                alert('请输入花名');
+                return;
+            }
+            
+            const results = flowerData.filter(flower => 
+                flower.name.toLowerCase().includes(flowerName.toLowerCase())
+            );
+            
+            document.getElementById('searchedFlowerName').textContent = flowerName;
+            const tableBody = document.getElementById('flowerSearchTable');
+            
+            if (results.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="3" class="text-center py-4">没有找到拥有该花的用户</td></tr>';
+            } else {
+                tableBody.innerHTML = '';
+                
+                results.forEach(flower => {
+                    const row = document.createElement('tr');
+                    
+                    // 用户
+                    const userCell = document.createElement('td');
+                    userCell.textContent = flower.user;
+                    row.appendChild(userCell);
+                    
+                    // 数量
+                    const countCell = document.createElement('td');
+                    countCell.textContent = flower.count;
+                    row.appendChild(countCell);
+                    
+                    // 获得日期
+                    const dateCell = document.createElement('td');
+                    dateCell.textContent = formatDate(flower.date);
+                    row.appendChild(dateCell);
+                    
+                    tableBody.appendChild(row);
+                });
+            }
+            
+            document.getElementById('flowerSearchResults').classList.remove('hidden');
+        }
+        
+        // 搜索用户
+        function searchUser() {
+            const userName = document.getElementById('userSearchInput').value.trim();
+            if (!userName) {
+                alert('请输入用户名');
+                return;
+            }
+            
+            if (!usersData.includes(userName)) {
+                alert('未找到该用户');
+                return;
+            }
+            
+            const results = flowerData.filter(flower => flower.user === userName);
+            
+            document.getElementById('searchedUserName').textContent = userName;
+            const tableBody = document.getElementById('userSearchTable');
+            
+            if (results.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4">该用户还没有收集任何花花</td></tr>';
+            } else {
+                tableBody.innerHTML = '';
+                
+                results.forEach(flower => {
+                    const row = document.createElement('tr');
+                    
+                    // 花名
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = flower.name;
+                    row.appendChild(nameCell);
+                    
+                    // 来源
+                    const sourceCell = document.createElement('td');
+                    const sourceTag = document.createElement('span');
+                    
+                    switch (flower.source) {
+                        case '2880':
+                            sourceTag.classList.add('tag', 'tag-2880');
+                            sourceTag.textContent = '2880及以下';
+                            break;
+                        case '3880':
+                            sourceTag.classList.add('tag', 'tag-3880');
+                            sourceTag.textContent = '3880';
+                            break;
+                        case '4880':
+                            sourceTag.classList.add('tag', 'tag-4880');
+                            sourceTag.textContent = '4880';
+                            break;
+                        case '5880':
+                            sourceTag.classList.add('tag', 'tag-5880');
+                            sourceTag.textContent = '5880';
+                            break;
+                        case '7880':
+                            sourceTag.classList.add('tag', 'tag-7880');
+                            sourceTag.textContent = '7880';
+                            break;
+                        case '11800':
+                            sourceTag.classList.add('tag', 'tag-11800');
+                            sourceTag.textContent = '11800';
+                            break;
+                        case 'gift':
+                            sourceTag.classList.add('tag', 'tag-gift');
+                            sourceTag.textContent = '礼包花圃';
+                            break;
+                        case 'limited':
+                            sourceTag.classList.add('tag', 'tag-limited');
+                            sourceTag.textContent = `活动礼包: ${flower.event || '未知活动'}`;
+                            break;
+                    }
+                    
+                    sourceCell.appendChild(sourceTag);
+                    row.appendChild(sourceCell);
+                    
+                    // 数量
+                    const countCell = document.createElement('td');
+                    countCell.textContent = flower.count;
+                    row.appendChild(countCell);
+                    
+                    // 获得日期
+                    const dateCell = document.createElement('td');
+                    dateCell.textContent = formatDate(flower.date);
+                    row.appendChild(dateCell);
+                    
+                    tableBody.appendChild(row);
+                });
+            }
+            
+            document.getElementById('userSearchResults').classList.remove('hidden');
+        }
+        
+        // 更新全部用户表格
+        function updateAllUsersTable() {
+            const tableBody = document.getElementById('allUsersTable');
+            
+            if (flowerData.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">暂无数据</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            
+            flowerData.forEach(flower => {
+                const row = document.createElement('tr');
+                
+                // 用户
+                const userCell = document.createElement('td');
+                userCell.textContent = flower.user;
+                row.appendChild(userCell);
+                
+                // 花名
+                const nameCell = document.createElement('td');
+                nameCell.textContent = flower.name;
+                row.appendChild(nameCell);
+                
+                // 来源
+                const sourceCell = document.createElement('td');
+                const sourceTag = document.createElement('span');
+                
+                switch (flower.source) {
+                    case '2880':
+                        sourceTag.classList.add('tag', 'tag-2880');
+                        sourceTag.textContent = '2880及以下';
+                        break;
+                    case '3880':
+                        sourceTag.classList.add('tag', 'tag-3880');
+                        sourceTag.textContent = '3880';
+                        break;
+                    case '4880':
+                        sourceTag.classList.add('tag', 'tag-4880');
+                        sourceTag.textContent = '4880';
+                        break;
+                    case '5880':
+                        sourceTag.classList.add('tag', 'tag-5880');
+                        sourceTag.textContent = '5880';
+                        break;
+                    case '7880':
+                        sourceTag.classList.add('tag', 'tag-7880');
+                        sourceTag.textContent = '7880';
+                        break;
+                    case '11800':
+                        sourceTag.classList.add('tag', 'tag-11800');
+                        sourceTag.textContent = '11800';
+                        break;
+                    case 'gift':
+                        sourceTag.classList.add('tag', 'tag-gift');
+                        sourceTag.textContent = '礼包花圃';
+                        break;
+                    case 'limited':
+                        sourceTag.classList.add('tag', 'tag-limited');
+                        sourceTag.textContent = `限时活动: ${flower.event || '未知活动'}`;
+                        break;
+                }
+                
+                sourceCell.appendChild(sourceTag);
+                row.appendChild(sourceCell);
+                
+
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // 显示花名建议
+        function showFlowerSuggestions(source) {
+            const suggestionContainer = document.getElementById('flowerSuggestionContainer');
+            const suggestionTableBody = document.getElementById('flowerSuggestionTable').querySelector('tbody');
+            
+            // 清空现有建议
+            suggestionTableBody.innerHTML = '';
+            
+            // 清空之前的选中状态
+            selectedFlowers = [];
+            
+            // 定义各来源的花名列表
+            const flowerNames = {
+                '2880': ['水红落新妇', '浅蓝新落妇', '紫矢车菊', '粉矢车菊', '浅紫落新妇', '淡茜蜀葵花', '忽地笑', '蓝矢车菊', '丹红蜀葵花', '金盏蜀葵花', '紫麦冬花', '月白格桑花', '白色满天星', '粉色满天星', '蓝色满天星'],
+                '3880': ['殷红灯笼花', '绿叶苏铁', '浅粉夹竹桃', '丹紫夹竹桃', '橘红海棠花', '黄色海棠花', '紫红杜鹃', '杏黄杜鹃', '嫣红杜鹃', '淡粉非洲堇', '玫红非洲堇', '轻紫非洲堇', '绯雪杰奎琳'],
+                '4880': ['曼陀罗华', '鸳鸯茉莉', '赤焰火焰兰', '雾粉麦冬花', '藤黄露薇花', '莹白露薇花', '奶桃大丽花', '黑曜大丽花', '明黄跳舞兰', '白粉蕙兰', '浅黄绿绒蒿', '幽蓝绿绒蒿'],
+                '5880': ['绀紫飞燕草', '轻紫大葱花', '蜜合月见草', '金白德鸳', '鹅黄铁筷花', '褐红铁筷花', '朱柿长寿花', '半见长寿花', '波叶金桂', '朱砂丹桂', '青山银桂', '胭脂芍药', '芋紫剑兰', '夕岚蔷薇花', '白茜剑兰', '金橙海葵', '粉紫华珊', '橘霞华珊', '焰绯海葵', '毛蕊紫银莲', '玫瑰粉银莲', '黑蕊白银莲', '云锦芍药', '粉鹤芋', '蓝叶苏铁'],
+                '7880': ['绀紫飞燕草', '轻紫大葱花', '蜜合月见草', '金白德鸳', '鹅黄铁筷花', '褐红铁筷花', '朱柿长寿花', '半见长寿花', '波叶金桂', '朱砂丹桂', '青山银桂', '胭脂芍药', '芋紫剑兰', '夕岚蔷薇花', '白茜剑兰', '金橙海葵', '粉紫华珊', '橘霞华珊', '焰绯海葵', '毛蕊紫银莲', '玫瑰粉银莲', '黑蕊白银莲', '云锦芍药', '粉鹤芋', '蓝叶苏铁'],
+                '11800': ['绀紫飞燕草', '轻紫大葱花', '蜜合月见草', '金白德鸳', '鹅黄铁筷花', '褐红铁筷花', '朱柿长寿花', '半见长寿花', '波叶金桂', '朱砂丹桂', '青山银桂', '胭脂芍药', '芋紫剑兰', '夕岚蔷薇花', '白茜剑兰', '金橙海葵', '粉紫华珊', '橘霞华珊', '焰绯海葵', '毛蕊紫银莲', '玫瑰粉银莲', '黑蕊白银莲', '云锦芍药', '粉鹤芋', '蓝叶苏铁'],
+                'gift': [
+                    ['珠匣粉芙蓉', '春晓木春花', '粉羽朱顶红', '桃云木香花'],
+                    ['冰融风信子', '雪融长春花', '霜融瑞香花', '冬融蜡梅花'],
+                    ['晨雾木兰花', '暮霭木莲花', '晨光瑞香花', '暮色木芙蓉'],
+                    ['晴昼粉蔷薇', '雨余白玫瑰', '风过红月季', '露晞蓝鸢尾'],
+                    ['春深红山茶', '夏浅白茉莉', '秋浓黄菊华', '冬浅墨梅香']
+                ],
+                'limited': [
+                    ['纯白海芋', '浅粉海芋', '淡蓝海芋', '鹅黄海芋'],
+                    ['珠翠之匣', '锦簇花团', '花楹春信', '花朝月夕'],
+                    ['雪月花', '花吹雪', '雪国之春', '春日部'],
+                    ['紫荷包牡丹', '珠宝之心', '粉荷包牡丹', '寻蜜之心', '梦幻之心']
+                ]
+            };
+            
+            // 获取对应来源的花名
+            let flowers = [];
+            if (source === 'gift' || source === 'limited') {
+                // 礼包花圃和活动礼包按组显示
+                flowerNames[source].forEach((group, groupIndex) => {
+                    const row = document.createElement('tr');
+                    
+                    group.forEach((flower, index) => {
+                        const cell = document.createElement('td');
+                        cell.className = 'py-1 px-2';
+                        
+                        // 创建复选框和标签
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = `flower-${groupIndex}-${index}`;
+                        checkbox.className = 'mr-1 flower-checkbox';
+                        checkbox.value = flower;
+                        
+                        const label = document.createElement('label');
+                        label.htmlFor = checkbox.id;
+                        label.textContent = flower;
+                        label.className = 'cursor-pointer hover:text-primary transition-colors';
+                        
+                        // 添加复选框和标签到单元格
+                        cell.appendChild(checkbox);
+                        cell.appendChild(label);
+                        
+                        row.appendChild(cell);
+                    });
+                    
+                    suggestionTableBody.appendChild(row);
+                    
+                    // 添加分隔行
+                    if (groupIndex < flowerNames[source].length - 1) {
+                        const separatorRow = document.createElement('tr');
+                        const separatorCell = document.createElement('td');
+                        separatorCell.colSpan = 4;
+                        separatorCell.className = 'py-1';
+                        separatorRow.appendChild(separatorCell);
+                        suggestionTableBody.appendChild(separatorRow);
+                    }
+                });
+            } else {
+                // 其他来源按列表显示
+                flowers = flowerNames[source] || [];
+                
+                // 每4个花名一行
+                for (let i = 0; i < flowers.length; i += 4) {
+                    const row = document.createElement('tr');
+                    
+                    for (let j = 0; j < 4; j++) {
+                        const index = i + j;
+                        if (index < flowers.length) {
+                            const cell = document.createElement('td');
+                            cell.className = 'py-1 px-2';
+                            
+                            // 创建复选框和标签
+                            const checkbox = document.createElement('input');
+                            checkbox.type = 'checkbox';
+                            checkbox.id = `flower-${i}-${j}`;
+                            checkbox.className = 'mr-1 flower-checkbox';
+                            checkbox.value = flowers[index];
+                            
+                            const label = document.createElement('label');
+                            label.htmlFor = checkbox.id;
+                            label.textContent = flowers[index];
+                            label.className = 'cursor-pointer hover:text-primary transition-colors';
+                            
+                            // 添加复选框和标签到单元格
+                            cell.appendChild(checkbox);
+                            cell.appendChild(label);
+                            
+                            row.appendChild(cell);
+                        }
+                    }
+                    
+                    suggestionTableBody.appendChild(row);
+                }
+            }
+            
+            // 显示建议容器
+            suggestionContainer.classList.remove('hidden');
+        }
+        
+        // 格式化日期
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        }
+        
+        // 保存数据到localStorage
+        function saveData() {
+            localStorage.setItem('flowerData', JSON.stringify(flowerData));
+            localStorage.setItem('usersData', JSON.stringify(usersData));
+            localStorage.setItem('avatarData', JSON.stringify(avatarData));
+        }
+        
+        // 从localStorage加载数据
+        function loadData() {
+            const savedFlowerData = localStorage.getItem('flowerData');
+            const savedUsersData = localStorage.getItem('usersData');
+            const savedAvatarData = localStorage.getItem('avatarData');
+            
+            if (savedFlowerData) {
+                flowerData = JSON.parse(savedFlowerData);
+            }
+            
+            if (savedUsersData) {
+                usersData = JSON.parse(savedUsersData);
+            }
+            
+            if (savedAvatarData) {
+                avatarData = JSON.parse(savedAvatarData);
+            }
+        }
+    </script>
+
+</body></html>
